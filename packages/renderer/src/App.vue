@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <Navbar :items="pages" />
-    <div id="content" class="pt-4 px-3">
+  <Navbar :items="pages" />
+  <div id="content" class="pt-4 px-3">
+    <div class="container-fluid">
       <router-view />
     </div>
   </div>
@@ -20,13 +20,13 @@ const PAGES: NavItemType[] = [
     exact: true,
   },
   {
-    label: "Actions",
-    to: "/about",
+    label: "Database",
+    to: "/database",
     icon: "calendar2-event",
   },
   {
-    label: "Database",
-    to: "/about",
+    label: "Actions",
+    to: "/actions",
     icon: "calendar2-event",
   },
 ];
