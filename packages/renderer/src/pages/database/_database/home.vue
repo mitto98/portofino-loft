@@ -34,7 +34,16 @@
                   @change="schema.selected = !schema.selected"
                 />
               </td>
-              <td>{{ schema.schema }}</td>
+              <td>
+                <router-link
+                  :to="{
+                    name: 'db-schema',
+                    params: { id: $route.params.id, schema: schema.schema },
+                  }"
+                >
+                  {{ schema.schema }}
+                </router-link>
+              </td>
               <td>{{ schema.name }}</td>
             </tr>
           </tbody>
@@ -60,10 +69,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
-import Field from "../../components/Field.vue";
+import Field from "../../../components/Field.vue";
 import { DbConnection } from "types/database/DbConnection";
 
 export default defineComponent({
+  name: "DatabaseDetail",
   components: { Field },
   data: () => ({
     connection: null as DbConnection | null,
