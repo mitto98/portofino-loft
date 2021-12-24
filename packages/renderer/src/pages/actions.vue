@@ -60,11 +60,11 @@
         v-if="!errors[selectedAction]"
         :action="actions[selectedAction]"
       />
-      <!-- <div
+      <div
         v-else
         v-html="errors[selectedAction].response.data"
         class="p-3 bg-white border-bottom"
-      /> -->
+      />
     </div>
   </div>
 </template>
@@ -116,7 +116,11 @@ export default defineComponent({
           `portofino-upstairs/actions/${action}/:description`
         );
         this.actions[action] = data;
-      } catch (e) {
+      } catch (e: any) {
+        e.response.data = e.response.data.replace(
+          /<style type="text\/css">.+<\/style>/g,
+          ""
+        );
         this.errors[action] = e;
       }
     },
