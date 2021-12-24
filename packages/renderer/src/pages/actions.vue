@@ -26,17 +26,20 @@
       />
     </div>
     <div class="col-sm-8 col-md-9">
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs nav-fill">
         <li class="nav-item">
           <router-link
-            :to="`/actions/${$route.params.action}`"
+            :to="{
+              name: 'actions-home',
+              params: { action: $route.params.action },
+            }"
             class="nav-link"
-            active-class="active"
+            exact-active-class="active"
           >
             Home
           </router-link>
         </li>
-        <li>
+        <li class="nav-item">
           <router-link
             :to="{
               name: 'actions-config',
@@ -48,11 +51,24 @@
             Configuration
           </router-link>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">Roles</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Childs</a>
+        </li> -->
+
+        <li class="nav-item">
+          <router-link
+            :to="{
+              name: 'actions-create',
+              params: { action: $route.params.action },
+            }"
+            class="nav-link"
+            active-class="active"
+          >
+            Create child action
+          </router-link>
         </li>
       </ul>
 

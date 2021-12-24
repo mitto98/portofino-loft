@@ -1,5 +1,7 @@
 <template>
-  <p>Configurazione</p>
+  <div class="p-3 bg-white">
+    <h2>Configurazione</h2>
+  </div>
 </template>
 
 <script lang="ts">

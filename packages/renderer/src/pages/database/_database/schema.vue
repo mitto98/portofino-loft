@@ -1,7 +1,21 @@
 <template>
-  <div class="p-3 bg-white">
+  <div class="px-3 py-2 bg-white">
     <h1>Database</h1>
-    <hr />
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <router-link to="/database">Database</router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link :to="`/database/${$route.params.id}`">
+            {{ $route.params.id }}
+          </router-link>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ $route.params.schema }}
+        </li>
+      </ol>
+    </nav>
 
     <table class="table">
       <thead>

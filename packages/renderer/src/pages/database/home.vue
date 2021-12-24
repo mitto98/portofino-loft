@@ -1,7 +1,11 @@
 <template>
   <div class="p-3 bg-white">
     <h1>Database</h1>
-    <hr />
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Database</li>
+      </ol>
+    </nav>
     <div class="row">
       <div class="col-6">
         <h2>Connections</h2>

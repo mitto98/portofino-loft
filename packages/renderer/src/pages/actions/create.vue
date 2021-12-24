@@ -1,5 +1,6 @@
 <template>
-  <form class="px-3" @submit="createAction">
+  <form class="p-3 bg-white" @submit.prevent="createAction">
+    <h2>Crud configuration</h2>
     <div class="mb-3">
       <label for="actionSegment" class="form-label">Segment</label>
       <div class="input-group mb-3">
@@ -16,6 +17,7 @@
     <Field
       name="actionType"
       label="Type"
+      type="select"
       v-model="form.type"
       :options="actionTypes"
     />

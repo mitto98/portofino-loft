@@ -1,6 +1,6 @@
 <template>
   <Navbar :items="pages" />
-  <div id="content" class="pt-4 px-3">
+  <div id="content" class="pt-3">
     <div class="container-fluid">
       <router-view />
     </div>

@@ -29,6 +29,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
+export interface OptionsType {
+  value: string;
+  label: string;
+}
+
 export default defineComponent({
   name: "Field",
   props: {
@@ -38,8 +43,10 @@ export default defineComponent({
     modelValue: { type: [String, Number] },
 
     options: {
-      type: Array as PropType<{ value: string; label: string }[]>,
+      type: Array as PropType<OptionsType[]>,
     },
+    //required
+    //description
   },
   computed: {
     fieldId() {
