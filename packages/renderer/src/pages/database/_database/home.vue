@@ -66,11 +66,13 @@
         &nbsp;
         <button class="btn btn-danger" @click="deleteConnection">Delete</button>
         &nbsp;
-        <button class="btn btn-secondary" @click="synchronize">Sync DB</button>
+        <AsyncButton label="Sync DB" :action="sync" variant="secondary" />
         &nbsp;
-        <button class="btn btn-secondary" @click="testConnection">
-          Test connection
-        </button>
+        <AsyncButton
+          label="Test connection"
+          :action="testConnection"
+          variant="secondary"
+        />
       </div>
     </div>
   </div>
@@ -81,10 +83,11 @@ import { defineComponent } from "vue";
 import axios from "axios";
 import Field from "../../../components/Field.vue";
 import { DbConnection } from "types/database/DbConnection";
+import AsyncButton from "/@/components/AsyncButton.vue";
 
 export default defineComponent({
   name: "DatabaseDetail",
-  components: { Field },
+  components: { Field, AsyncButton },
   data: () => ({
     connection: null as DbConnection | null,
   }),
@@ -104,7 +107,7 @@ export default defineComponent({
       );
       window.alert(`Database ${db} status: ${data[0] || ""} ${data[1] || ""}`);
     },
-    async synchronize() {
+    async sync() {
       const db = this.$route.params.id;
       try {
         await axios.post(

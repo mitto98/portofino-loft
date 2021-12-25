@@ -8,7 +8,7 @@ export interface TableModel {
   idStrategy: string | null;
   annotation: any[];
   columns: TableColumn[];
-  foreignKey: any[];
+  foreignKey: ForeignKey[];
   query: any[];
 }
 
@@ -23,4 +23,18 @@ interface TableColumn {
   javaType: string | null;
   propertyName: string | null;
   annotation: any[];
+}
+
+interface ForeignKey {
+  name: string;
+  onePropertyName: string | null;
+  manyPropertyName: string | null;
+  onDelete: string;
+  onUpdate: string;
+  sql: string | null;
+  toDatabase: string;
+  toSchema: string;
+  toTable: string;
+
+  reference: { fromColumn: string; toColumn: string }[];
 }
