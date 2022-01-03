@@ -60,8 +60,10 @@
   </form>
   <div class="p-3 bg-white">
     <hr />
+    <h3>Configuration</h3>
     <pre>{{ config }}</pre>
     <hr />
+    <h3>Description</h3>
     <pre>{{ action }}</pre>
   </div>
 </template>

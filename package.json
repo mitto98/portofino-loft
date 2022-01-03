@@ -55,6 +55,7 @@
     "@manydesigns/portofino": "^1.8.1",
     "electron-updater": "4.6.5",
     "lodash": "^4.17.21",
+    "pinia": "^2.0.9",
     "vue": "3.2.26",
     "vue-router": "4.0.12"
   }

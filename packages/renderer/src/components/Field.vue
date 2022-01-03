@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <label :for="fieldId" class="form-label">{{ label }}</label>
+    <label v-if="label" :for="fieldId" class="form-label">{{ label }}</label>
     <select
       v-if="type === 'select'"
       :id="fieldId"
@@ -38,7 +38,7 @@ export default defineComponent({
   name: "Field",
   props: {
     name: { required: true, type: String },
-    label: { required: true, type: String },
+    label: { type: String },
     type: { default: "text", type: String },
     modelValue: { type: [String, Number] },
 

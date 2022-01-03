@@ -21,8 +21,9 @@
 </template>
 
 <script lang="ts">
+import { mapState } from "pinia";
 import { defineComponent, PropType } from "vue";
-import { ActionDescriptionRecord } from "../../../types/Action";
+import { useActionStore } from "/@/stores/actions";
 
 export default defineComponent({
   name: "ActionList",
@@ -31,14 +32,12 @@ export default defineComponent({
       required: true,
       type: Array as PropType<Array<string>>,
     },
-    descriptions: {
-      required: true,
-      type: Object as PropType<ActionDescriptionRecord>,
-    },
-    errors: {
-      required: true,
-      type: Object as PropType<Record<string, any>>,
-    },
+  },
+  computed: {
+    ...mapState(useActionStore, {
+      descriptions: "actions",
+      errors: "errors",
+    }),
   },
 });
 </script>

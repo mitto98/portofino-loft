@@ -19,11 +19,7 @@
       </nav>
     </div>
     <div class="col-sm-4 col-md-3">
-      <ActionList
-        :actions="rootAction.children"
-        :descriptions="actions"
-        :errors="errors"
-      />
+      <ActionList :actions="rootAction.children" />
     </div>
     <div class="col-sm-8 col-md-9">
       <ul class="nav nav-tabs nav-fill">
@@ -57,7 +53,6 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Childs</a>
         </li> -->
-
         <li class="nav-item">
           <router-link
             :to="{
@@ -87,34 +82,29 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import axios from "axios";
+import { mapActions, mapState } from "pinia";
 import { isArray } from "lodash";
-import { ActionDescription, ActionDescriptionRecord } from "../../types/Action";
 import ActionList from "../components/actions/ActionList.vue";
+import { useActionStore } from "../stores/actions";
 
 export default defineComponent({
   name: "App",
   data: () => ({
     isLoading: true,
-    actions: {} as ActionDescriptionRecord,
-    errors: {} as Record<string, any>,
   }),
   components: { ActionList },
-  async created() {
-    const { data } = await axios.get<ActionDescription>(
-      "portofino-upstairs/actions/:description"
-    );
-    data.children = data.children.sort((a, b) => a.localeCompare(b));
-    this.actions[""] = data;
-
-    await Promise.all(
-      data.children.map((child: string) => this.loadActionDescription(child))
-    );
+  async mounted() {
+    await this.loadAction();
+    await this.loadChilds();
     this.isLoading = false;
   },
+  watch: {
+    action: "loadChilds",
+  },
   computed: {
+    ...mapState(useActionStore, ["actions", "errors"]),
     selectedAction() {
-      let action = this.$route.params.action;
+      let { action } = this.$route.params;
       if (isArray(action)) action = action.join("/");
       return action || "";
     },
@@ -126,19 +116,11 @@ export default defineComponent({
     },
   },
   methods: {
-    async loadActionDescription(action: string) {
-      try {
-        const { data } = await axios.get<ActionDescription>(
-          `portofino-upstairs/actions/${action}/:description`
-        );
-        this.actions[action] = data;
-      } catch (e: any) {
-        e.response.data = e.response.data.replace(
-          /<style type="text\/css">.+<\/style>/g,
-          ""
-        );
-        this.errors[action] = e;
-      }
+    ...mapActions(useActionStore, ["loadAction"]),
+    async loadChilds() {
+      await Promise.all(
+        this.actions[""].children.map((child: string) => this.loadAction(child))
+      );
     },
   },
 });
