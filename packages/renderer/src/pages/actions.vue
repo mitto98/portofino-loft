@@ -19,7 +19,7 @@
       </nav>
     </div>
     <div class="col-sm-4 col-md-3">
-      <ActionList :actions="rootAction.children" />
+      <ActionList :actions="action.children" />
     </div>
     <div class="col-sm-8 col-md-9">
       <ul class="nav nav-tabs nav-fill">
@@ -110,9 +110,6 @@ export default defineComponent({
     },
     action() {
       return this.actions[this.selectedAction];
-    },
-    rootAction() {
-      return this.actions[""];
     },
   },
   methods: {

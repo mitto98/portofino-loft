@@ -23,7 +23,6 @@ export const useActionStore = defineStore("actions", {
           data.children = data.children.sort((a, b) => a.localeCompare(b));
 
         this.actions = { ...this.actions, [name]: data };
-        console.log("PINIA", this.actions);
       } catch (e: any) {
         e.response.data = e.response.data.replace(
           /<style type="text\/css">.+<\/style>/g,
