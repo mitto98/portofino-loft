@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { isArray } from "lodash";
 import { ActionDescription } from "types/Action";
+import { getActionUpstairUrl } from "../lib/utils";
 
 export const useActionStore = defineStore("actions", {
   state: () => ({
@@ -12,11 +13,7 @@ export const useActionStore = defineStore("actions", {
   actions: {
     async loadAction(name: string = "", force: boolean = false) {
       if (this.actions[name]) return;
-
-      const url = `portofino-upstairs/actions/${name}/:description`.replace(
-        "//",
-        "/"
-      );
+      const url = getActionUpstairUrl(name, ":description");
       try {
         const { data } = await axios.get<ActionDescription>(url);
         if (isArray(data.children))
@@ -29,6 +26,14 @@ export const useActionStore = defineStore("actions", {
           ""
         );
         this.errors[name] = e;
+      }
+    },
+    async updateActionConfig(name: string | string[] = "", config: any) {
+      const url = getActionUpstairUrl(name, "action/:configuration");
+      try {
+        await axios.put(url, config);
+      } catch (e: any) {
+        if (axios.isAxiosError(e)) alert(e.response?.data || "Network error");
       }
     },
   },

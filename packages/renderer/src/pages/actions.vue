@@ -117,6 +117,7 @@ export default defineComponent({
     async loadChilds() {
       await Promise.all(
         this.actions[""].children.map((child: string) => this.loadAction(child))
+        // this.action.children.map((child: string) => this.loadAction(child))
       );
     },
   },

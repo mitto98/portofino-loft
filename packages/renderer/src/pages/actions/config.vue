@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="{ property } in config.properties">
+        <tr v-for="property in config.properties">
           <td>
             <input
               class="form-check-input"
@@ -68,6 +68,9 @@
 
   <div class="p-3 bg-white">
     <hr />
+    <h3>Missing props</h3>
+    <pre>{{ missingProps }}</pre>
+    <hr />
     <h3>Configuration</h3>
     <pre>{{ config }}</pre>
     <hr />
@@ -81,12 +84,16 @@ import { defineComponent } from "vue";
 import axios from "axios";
 import { getActionUpstairUrl } from "/@/lib/utils";
 import Field from "/@/components/Field.vue";
+import { mapActions } from "pinia";
+import { useActionStore } from "/@/stores/actions";
+import { differenceBy } from "lodash";
 
 export default defineComponent({
   components: { Field },
   props: ["action"],
   data: () => ({
     config: null as any,
+    missingProps: [] as any[],
   }),
   async created() {
     await this.loadConfig();
@@ -97,24 +104,34 @@ export default defineComponent({
     },
   },
   methods: {
+    ...mapActions(useActionStore, ["updateActionConfig"]),
     async loadConfig() {
       try {
-        const { data } = await axios.get(
-          getActionUpstairUrl(
-            this.$route.params.action,
-            "action/:configuration"
-          )
+        const url = getActionUpstairUrl(this.$route.params.action, "action");
+        const [{ data: config }, { data: classAccessor }] = await Promise.all([
+          axios.get(`${url}/:configuration`),
+          axios.get(`${url}/:classAccessor`),
+        ]);
+        config.properties = config.properties.map((p: any) => p.property);
+
+        const missingProps = differenceBy<any>(
+          classAccessor.properties,
+          config.properties,
+          "name"
         );
-        this.config = data;
+        console.log(missingProps);
+
+        config.properties.push(...missingProps.map((p) => ({ name: p.name })));
+
+        this.config = config;
+        this.missingProps = missingProps;
       } catch (e) {
         this.config = null;
       }
     },
     async updateConfig() {
-      await axios.put(
-        getActionUpstairUrl(this.$route.params.action, "action/:configuration"),
-        this.config
-      );
+      const { action } = this.$route.params;
+      await this.updateActionConfig(action, this.config);
       await this.loadConfig();
     },
   },
