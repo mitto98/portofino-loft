@@ -6,6 +6,8 @@ import { createPinia } from "pinia";
 
 axios.defaults.baseURL =
   localStorage.getItem("baseUrl") || "http://localhost:8080/api/";
-axios.defaults.headers.Authorization = localStorage.getItem("jwt");
+
+const jwt = localStorage.getItem("jwt");
+if (jwt) axios.defaults.headers.Authorization = jwt;
 
 createApp(App).use(router).use(createPinia()).mount("#app");
