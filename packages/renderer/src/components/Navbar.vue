@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Portofino Attic</a>
+      <a class="navbar-brand" href="#">Portofino Loft</a>
     </div>
   </nav>
   <div
